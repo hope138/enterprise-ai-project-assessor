@@ -1,0 +1,15 @@
+.DS_Store
+Thumbs.db
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+.env
+.env.*
+!.env.example
+*.log
+
+tests/runs/*
+!tests/runs/.gitkeep

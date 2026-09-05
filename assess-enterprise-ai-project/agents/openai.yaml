@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI项目立项评估五道门"
+  short_description: "通过五道门评估企业AI项目，输出立项结论与最低成本验证计划"
+  default_prompt: "使用 $assess-enterprise-ai-project 评估这个企业AI项目，区分事实、假设与缺失证据，并给出立项结论和最低成本验证计划。"
