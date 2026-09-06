@@ -4,7 +4,7 @@ Enterprise AI Project Assessor
 
 面向企业 AI 产品经理的 Codex Skill：通过五道门判断一个 AI 需求是否值得立项，并输出 `GO`、`VALIDATE-FIRST` 或 `NO-GO`、证据缺口与最低成本验证计划。
 
-> 当前版本：`v0.1.0 Beta`。规则回归测试已通过；发布 `v1.0.0` 前仍建议完成跨任务、无预期答案泄漏的盲测。
+> 当前版本：`v0.1.0 Beta`。规则回归测试已通过；首轮独立盲测的三类核心结论全部命中，但严格断言仍有偏差，修复并复测通过后再发布 `v1.0.0`。
 
 ## 为什么做这个 Skill
 
@@ -131,7 +131,9 @@ $assess-enterprise-ai-project
 | 服饰趋势洞察与设计平台 | `VALIDATE-FIRST` | [测试输入](tests/inputs/02-fashion-trend-design.md) | [评审结果](tests/outputs/02-fashion-trend-design-assessment.md) |
 | 跨渠道自主调价 Agent | `NO-GO` | [测试输入](tests/inputs/03-cross-channel-pricing-agent.md) | [评审结果](tests/outputs/03-cross-channel-pricing-agent-assessment.md) |
 
-现有规则回归共 20 条断言，结果为 20 通过、0 失败，详见[回归记录](tests/results/2026-09-05-regression.md)。这些测试用于验证规则一致性，不等同于独立盲测或真实行业基准。
+现有规则回归共 20 条断言，结果为 20 通过、0 失败，详见[回归记录](tests/results/2026-09-05-regression.md)。
+
+2026-09-06 又在三个全新、隔离的 Codex 任务中完成首轮独立盲测：三类核心决策 `3/3` 命中，但只有 `1/3` 用例完全满足严格断言；其余偏差集中在最小验证范围、证据分类、`NO-GO` 证据充分度和第一门状态。详见[独立盲测记录](tests/results/2026-09-06-independent-blind-test.md)及[三份原始输出](tests/outputs/blind/)。当前仍为 Beta，不将该结果描述为真实行业基准。
 
 ## 使用边界
 
