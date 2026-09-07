@@ -2,7 +2,7 @@
 
 Enterprise AI Project Assessor
 
-面向企业 AI 产品经理的 Codex Skill：通过五道门判断一个 AI 需求是否值得立项，并输出 `GO`、`VALIDATE-FIRST` 或 `NO-GO`、证据缺口与最低成本验证计划。
+面向企业 AI 产品经理与业务评审团队的 Agent Skill：通过五道门判断一个 AI 需求是否值得立项，并输出 `GO`、`VALIDATE-FIRST` 或 `NO-GO`、证据缺口与最低成本验证计划。兼容 Codex、OpenClaw、Claude Code 等支持 Agent Skills 的智能体。
 
 > 当前版本：`v1.0.0`。20 条规则回归测试全部通过；针对首轮偏差修复后，第二轮三个全新独立会话的核心决策、定向修复断言和当前严格用例均全部通过。
 
@@ -87,7 +87,7 @@ Skill 会区分已验证事实、文档陈述、相关方口述、假设、未�
 .
 ├── assess-enterprise-ai-project/
 │   ├── SKILL.md                    # 索引、输入输出契约与执行工作流
-│   ├── agents/openai.yaml          # Codex 展示与调用配置
+│   ├── agents/openai.yaml          # Codex 专用展示配置，其他 Agent 可忽略
 │   └── references/
 │       ├── five-gates.md           # 五道门评审标准
 │       ├── decision-rules.md       # 决策与一票否决规则
@@ -101,9 +101,23 @@ Skill 会区分已验证事实、文档陈述、相关方口述、假设、未�
     └── results/                    # 回归测试记录
 ```
 
-## 安装到 Codex
+## 兼容平台
 
-### 方法一：使用 Skill Installer
+Skill 主体采用开放的 Agent Skills 目录结构：`SKILL.md` 负责元数据与执行工作流，`references/` 按需提供评审规则、输出模板和案例。不同平台的区别主要是安装目录和显式调用语法。
+
+| 平台 | 支持情况 | 个人安装目录 | 显式调用 |
+| --- | --- | --- | --- |
+| Codex | 原生支持 | `~/.codex/skills/` | `$assess-enterprise-ai-project` |
+| OpenClaw | 支持 Agent Skills | `~/.agents/skills/`，也可安装到工作区 | `$assess-enterprise-ai-project`；部分渠道支持 `/assess-enterprise-ai-project` |
+| Claude Code | 支持 Agent Skills | `~/.claude/skills/` | `/assess-enterprise-ai-project` |
+
+`agents/openai.yaml` 仅用于 Codex 的界面展示。其他平台会使用 `SKILL.md` 和 `references/`，不依赖这个文件。
+
+## 安装
+
+### Codex
+
+#### 方法一：使用 Skill Installer
 
 在 Codex 中输入 `$skill-installer`，并发送：
 
@@ -114,7 +128,7 @@ https://github.com/hope138/enterprise-ai-project-assessor/tree/main/assess-enter
 
 安装完成后新建一个 Codex 任务，以便重新加载 Skill 列表。
 
-### 方法二：本地链接（macOS / Linux）
+#### 方法二：本地链接（macOS / Linux）
 
 ```bash
 git clone https://github.com/hope138/enterprise-ai-project-assessor.git
@@ -122,9 +136,36 @@ cd enterprise-ai-project-assessor
 ln -s "$PWD/assess-enterprise-ai-project" ~/.codex/skills/assess-enterprise-ai-project
 ```
 
+### OpenClaw（macOS / Linux）
+
+```bash
+git clone https://github.com/hope138/enterprise-ai-project-assessor.git
+cd enterprise-ai-project-assessor
+mkdir -p ~/.agents/skills
+ln -s "$PWD/assess-enterprise-ai-project" ~/.agents/skills/assess-enterprise-ai-project
+```
+
+如果已经安装在 Codex 的个人 Skill 目录，也可以使用 OpenClaw 提供的迁移流程：
+
+```text
+openclaw migrate plan codex
+openclaw migrate codex
+```
+
+### Claude Code（macOS / Linux）
+
+```bash
+git clone https://github.com/hope138/enterprise-ai-project-assessor.git
+cd enterprise-ai-project-assessor
+mkdir -p ~/.claude/skills
+ln -s "$PWD/assess-enterprise-ai-project" ~/.claude/skills/assess-enterprise-ai-project
+```
+
+如果只想在单个项目中使用，可将完整的 `assess-enterprise-ai-project/` 文件夹放到该项目的 `.claude/skills/` 或对应平台的工作区 Skill 目录。
+
 ## 如何调用
 
-显式调用：
+在 Codex 中显式调用：
 
 ```text
 $assess-enterprise-ai-project
@@ -132,7 +173,7 @@ $assess-enterprise-ai-project
 请评估下面这个企业 AI 项目是否值得立项。当前阶段是 POC 决策，材料包括 PRD、用户访谈、业务数据和安全约束……
 ```
 
-也可以直接提出“这个 AI 项目是否值得做”“请评审这份 PRD 能否立项”等问题，由 Codex 根据 Skill 的 description 自动匹配。
+在 OpenClaw 中使用 `$assess-enterprise-ai-project`，在 Claude Code 中使用 `/assess-enterprise-ai-project`。也可以直接提出“这个 AI 项目是否值得做”“请评审这份 PRD 能否立项”等问题，由支持自动触发的 Agent 根据 Skill 的 `description` 匹配。
 
 建议至少提供：项目名称和当前阶段、目标用户与业务流程、问题证据、现有方案、期望指标、数据与系统条件、成本收益假设，以及运营／合规约束。缺失时 Skill 会优先追问影响决策的关键信息，并在无法补充时降级评估。
 
