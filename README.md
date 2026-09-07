@@ -196,12 +196,6 @@ $assess-enterprise-ai-project
 | 服饰趋势洞察与设计平台 | `VALIDATE-FIRST` | [测试输入](tests/inputs/02-fashion-trend-design.md) | [评审结果](tests/outputs/02-fashion-trend-design-assessment.md) |
 | 跨渠道自主调价 Agent | `NO-GO` | [测试输入](tests/inputs/03-cross-channel-pricing-agent.md) | [评审结果](tests/outputs/03-cross-channel-pricing-agent-assessment.md) |
 
-现有规则回归共 20 条断言，结果为 20 通过、0 失败，详见[回归记录](tests/results/2026-09-05-regression.md)。
-
-2026-09-06 在三个全新、隔离的 Codex 任务中完成首轮独立盲测：三类核心决策 `3/3` 命中，发现最小验证范围、证据分类、`NO-GO` 证据充分度和第一门状态四项规则偏差。详见[首轮独立盲测记录](tests/results/2026-09-06-independent-blind-test.md)及[首轮原始输出](tests/outputs/blind/)。
-
-修复后又在三个全新的独立 Codex 会话中完成第二轮前向测试：核心决策 `3/3`、四项定向修复 `4/4`、按当前规则校准后的严格用例 `3/3` 通过。测试期间不修改锁定的模型原始输出；同时记录并修正了一个与新证据边界冲突的旧测试预言。详见[第二轮独立盲测记录](tests/results/2026-09-06-independent-blind-test-round-2.md)及[第二轮原始输出](tests/outputs/blind-round-2/)。这些结果来自模拟场景和单次运行，不描述为真实行业基准。
-
 ## 使用边界
 
 - 案例和模拟数据仅用于展示决策方法，不代表通用行业基准。
