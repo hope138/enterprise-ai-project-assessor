@@ -4,8 +4,6 @@ Enterprise AI Project Assessor
 
 面向企业 AI 产品经理与业务评审团队的 Agent Skill：通过五道门判断一个 AI 需求是否值得立项，并输出 `GO`、`VALIDATE-FIRST` 或 `NO-GO`、证据缺口与最低成本验证计划。兼容 Codex、OpenClaw、Claude Code 等支持 Agent Skills 的智能体。
 
-> 当前版本：`v1.0.0`。20 条规则回归测试全部通过；针对首轮偏差修复后，第二轮三个全新独立会话的核心决策、定向修复断言和当前严格用例均全部通过。
-
 ## 适合谁
 
 - **企业 AI 产品经理／AIPM**：把业务需求转化为可评审的 AI 项目，并判断是否应进入下一阶段。
